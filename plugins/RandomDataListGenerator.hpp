@@ -14,7 +14,8 @@
 
 #include "ListWrapper.hpp"
 
-#include "listrev/randomdatalistgenerator/Structs.hpp"
+//#include "listrev/randomdatalistgenerator/Structs.hpp"
+#include "listrev/RandomListGeneratorModule.hpp"
 
 #include "appfwk/DAQModule.hpp"
 #include "iomanager/Sender.hpp"
@@ -69,7 +70,9 @@ private:
   using sink_t = dunedaq::iomanager::SenderConcept<IntList>;
   std::vector<std::shared_ptr<sink_t>> outputQueues_;
   std::chrono::milliseconds queueTimeout_;
-  randomdatalistgenerator::ConfParams cfg_;
+  //randomdatalistgenerator::ConfParams cfg_;
+  Configuration* m_confdb;
+  const dunedaq::dal::RandomListGeneratorModule* m_conf;
 
   // Statistic counters
   std::atomic<uint64_t> m_generated{ 0 };     // NOLINT(build/unsigned)

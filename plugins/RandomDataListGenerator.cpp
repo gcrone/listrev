@@ -14,9 +14,12 @@
 #include "RandomDataListGenerator.hpp"
 
 #include "appfwk/app/Nljs.hpp"
+#include "appfwk/Issues.hpp"
 
 #include "iomanager/IOManager.hpp"
 #include "logging/Logging.hpp"
+
+#include "oksdbinterfaces/Configuration.hpp"
 
 #include <chrono>
 #include <cstdlib>
@@ -76,7 +79,14 @@ void
 RandomDataListGenerator::do_configure(const nlohmann::json& obj)
 {
   TLOG_DEBUG(TLVL_ENTER_EXIT_METHODS) << get_name() << ": Entering do_configure() method";
-  cfg_ = obj.get<randomdatalistgenerator::ConfParams>();
+  //cfg_ = obj.get<randomdatalistgenerator::ConfParams>();
+  char* dbenv=getenv("TDAQ_DB");
+  m_confdb = new Configuration(dbenv);
+  m_conf = m_confdb->get<dunedaq::dal::RandomListGeneratorModule>(get_name());
+  if (!m_conf) {
+    throw (appfwk::ConfigurationRetreival(ERS_HERE, "RandomListGeneratorModule"));
+  }
+  std::cout << "ints_per=" << m_conf->get_ints_per_list() << std::endl;
   TLOG_DEBUG(TLVL_ENTER_EXIT_METHODS) << get_name() << ": Exiting do_configure() method";
 }
 
@@ -102,7 +112,11 @@ void
 RandomDataListGenerator::do_unconfigure(const nlohmann::json& /*args*/)
 {
   TLOG_DEBUG(TLVL_ENTER_EXIT_METHODS) << get_name() << ": Entering do_unconfigure() method";
-  cfg_ = randomdatalistgenerator::ConfParams{}; // reset to defaults
+  //cfg_ = randomdatalistgenerator::ConfParams{}; // reset to defaults
+  if (m_confdb != nullptr) {
+    delete m_confdb;
+    m_confdb = nullptr;
+  }
   TLOG_DEBUG(TLVL_ENTER_EXIT_METHODS) << get_name() << ": Exiting do_unconfigure() method";
 }
 
@@ -143,11 +157,11 @@ RandomDataListGenerator::do_work(std::atomic<bool>& running_flag)
   m_generated_tot = 0;
   m_generated = 0;
   while (running_flag.load()) {
-    TLOG_DEBUG(TLVL_LIST_GENERATION) << get_name() << ": Creating list of length " << cfg_.nIntsPerList;
-    std::vector<int> theList(cfg_.nIntsPerList);
+    TLOG_DEBUG(TLVL_LIST_GENERATION) << get_name() << ": Creating list of length " << m_conf->get_ints_per_list();
+    std::vector<int> theList(m_conf->get_ints_per_list());
 
     TLOG_DEBUG(TLVL_LIST_GENERATION) << get_name() << ": Start of fill loop";
-    for (size_t idx = 0; idx < cfg_.nIntsPerList; ++idx) {
+    for (size_t idx = 0; idx < m_conf->get_ints_per_list(); ++idx) {
       theList[idx] = (rand() % 1000) + 1;
     }
     ++m_generated_tot;
@@ -184,7 +198,7 @@ RandomDataListGenerator::do_work(std::atomic<bool>& running_flag)
     }
 
     TLOG_DEBUG(TLVL_LIST_GENERATION) << get_name() << ": Start of sleep between sends";
-    std::this_thread::sleep_for(std::chrono::milliseconds(cfg_.waitBetweenSendsMsec));
+    std::this_thread::sleep_for(std::chrono::milliseconds(m_conf->get_wait_ms()));
     TLOG_DEBUG(TLVL_LIST_GENERATION) << get_name() << ": End of do_work loop";
   }
 
