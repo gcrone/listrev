@@ -80,15 +80,15 @@
 
 <oks-schema>
 
-<info name="" type="" num-of-items="2" oks-format="schema" oks-version="862f2957270" created-by="gjc" created-on="thinkpad" creation-time="20230317T105755" last-modified-by="gjc" last-modified-on="thinkpad" last-modification-time="20230321T091221"/>
+<info name="" type="" num-of-items="2" oks-format="schema" oks-version="862f2957270" created-by="gjc" created-on="thinkpad" creation-time="20230317T105755" last-modified-by="gjc" last-modified-on="thinkpad" last-modification-time="20230323T165507"/>
 
 <include>
- <file path="schema/dunedaq.schema.xml"/>
+ <file path="schema/dunedaqdal/dunedaq.schema.xml"/>
 </include>
 
 
  <class name="ListrevApplication">
-  <superclass name="ReadoutApplication"/>
+  <superclass name="DaqApplication"/>
   <attribute name="apps" description="Apps to generate: &quot;s&quot; for single-app ListRev, otherwise specify &quot;g&quot;, &quot;r&quot;, and &quot;v&quot;. E.g.: [&quot;gv&quot;,&quot;r&quot;]" type="string" is-multi-value="yes" init-value="s" is-not-null="yes"/>
  </class>
 
