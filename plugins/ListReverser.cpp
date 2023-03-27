@@ -14,6 +14,8 @@
 #include "iomanager/IOManager.hpp"
 #include "logging/Logging.hpp"
 
+#include "dunedaqdal/Queue.hpp"
+
 #include <chrono>
 #include <string>
 #include <thread>
@@ -55,6 +57,29 @@ ListReverser::init(const nlohmann::json& iniobj)
   } catch (const ers::Issue& excpt) {
     throw InvalidQueueFatalError(ERS_HERE, get_name(), "output", excpt);
   }
+  TLOG_DEBUG(TLVL_ENTER_EXIT_METHODS) << get_name() << ": Exiting init() method";
+}
+
+void
+ListReverser::init(const dunedaq::dal::DaqModule* conf) {
+  TLOG_DEBUG(TLVL_ENTER_EXIT_METHODS) << get_name() << ": Entering init() method";
+  m_conf = conf;
+  try {
+    auto inputs = m_conf->get_inputs();
+    auto queue = inputs[0]->cast<dunedaq::dal::Queue>();
+    inputQueue_ = get_iom_receiver<IntList>(queue->UID());
+  } catch (const ers::Issue& excpt) {
+    throw InvalidQueueFatalError(ERS_HERE, get_name(), "input", excpt);
+  }
+
+  try {
+    auto outputs = m_conf->get_outputs();
+    auto queue = outputs[0]->cast<dunedaq::dal::Queue>();
+    outputQueue_ = get_iom_sender<IntList>(queue->UID());
+  } catch (const ers::Issue& excpt) {
+    throw InvalidQueueFatalError(ERS_HERE, get_name(), "input", excpt);
+  }
+
   TLOG_DEBUG(TLVL_ENTER_EXIT_METHODS) << get_name() << ": Exiting init() method";
 }
 

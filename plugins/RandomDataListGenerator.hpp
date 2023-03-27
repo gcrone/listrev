@@ -21,6 +21,8 @@
 #include "iomanager/Sender.hpp"
 #include "utilities/WorkerThread.hpp"
 
+#include "dunedaqdal/DaqModule.hpp"
+
 #include <ers/Issue.hpp>
 
 #include <memory>
@@ -52,6 +54,8 @@ public:
     delete; ///< RandomDataListGenerator is not move-assignable
 
   void init(const nlohmann::json& obj) override;
+  void init(const dunedaq::dal::DaqModule*) override;
+
   void get_info(opmonlib::InfoCollector& ci, int level) override;
 
 private:
@@ -70,8 +74,7 @@ private:
   using sink_t = dunedaq::iomanager::SenderConcept<IntList>;
   std::vector<std::shared_ptr<sink_t>> outputQueues_;
   std::chrono::milliseconds queueTimeout_;
-  //randomdatalistgenerator::ConfParams cfg_;
-  Configuration* m_confdb;
+  randomdatalistgenerator::ConfParams cfg_;
   const dunedaq::dal::RandomListGeneratorModule* m_conf;
 
   // Statistic counters
@@ -88,6 +91,11 @@ ERS_DECLARE_ISSUE_BASE(listrev,
                        "initialization been successfully completed?",
                        ((std::string)name),
                        ERS_EMPTY)
+ERS_DECLARE_ISSUE(listrev,
+                  OksCastFailed,
+                  "Failed to cast " << name << " to type " << type,
+                  ((std::string)name)((std::string)type))
+
 // Re-enable coverage collection LCOV_EXCL_STOP
 
 } // namespace dunedaq

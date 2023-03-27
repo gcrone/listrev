@@ -14,6 +14,8 @@
 #include "iomanager/IOManager.hpp"
 #include "logging/Logging.hpp"
 
+#include "dunedaqdal/Queue.hpp"
+
 #include <chrono>
 #include <functional>
 #include <string>
@@ -58,6 +60,32 @@ ReversedListValidator::init(const nlohmann::json& obj)
     throw InvalidQueueFatalError(ERS_HERE, get_name(), "original data input", excpt);
   }
 
+  TLOG_DEBUG(TLVL_ENTER_EXIT_METHODS) << get_name() << ": Exiting init() method";
+}
+
+void
+ReversedListValidator::init(const dunedaq::dal::DaqModule* conf) {
+  TLOG_DEBUG(TLVL_ENTER_EXIT_METHODS) << get_name() << ": Entering init() method";
+  m_conf = conf;
+
+  for (auto input : conf->get_inputs()) {
+    auto queue = input->cast<dunedaq::dal::Queue>();
+    std::string name(queue->UID());
+    if (name.find("rev") != std::string::npos) {
+      try {
+        reversedDataQueue_ = get_iom_receiver<IntList>(name);
+      } catch (const ers::Issue& excpt) {
+        throw InvalidQueueFatalError(ERS_HERE, get_name(), "reversed data input", excpt);
+      }
+    }
+    else if (name.find("orig") != std::string::npos) {
+      try {
+        originalDataQueue_ = get_iom_receiver<IntList>(name);
+      } catch (const ers::Issue& excpt) {
+        throw InvalidQueueFatalError(ERS_HERE, get_name(), "original data input", excpt);
+      }
+    }
+  }
   TLOG_DEBUG(TLVL_ENTER_EXIT_METHODS) << get_name() << ": Exiting init() method";
 }
 

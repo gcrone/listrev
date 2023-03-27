@@ -19,6 +19,8 @@
 #include "iomanager/Receiver.hpp"
 #include "iomanager/Sender.hpp"
 #include "utilities/WorkerThread.hpp"
+#include "oksdbinterfaces/Configuration.hpp"
+#include "dunedaqdal/DaqModule.hpp"
 
 #include <ers/Issue.hpp>
 
@@ -48,6 +50,7 @@ public:
   ListReverser& operator=(ListReverser&&) = delete;      ///< ListReverser is not move-assignable
 
   void init(const nlohmann::json& iniobj) override;
+  void init(const dunedaq::dal::DaqModule* conf) override;
 
 private:
   // Commands
@@ -59,6 +62,8 @@ private:
   void do_work(std::atomic<bool>&);
 
   // Configuration
+  Configuration* m_confdb;
+  const dunedaq::dal::DaqModule* m_conf;
   using source_t = dunedaq::iomanager::ReceiverConcept<IntList>;
   std::shared_ptr<source_t> inputQueue_;
   using sink_t = dunedaq::iomanager::SenderConcept<IntList>;
