@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="ASCII"?>
+
+<!-- oks-data version 2.2 -->
+
+
+<!DOCTYPE oks-data [
+  <!ELEMENT oks-data (info, (include)?, (comments)?, (obj)+)>
+  <!ELEMENT info EMPTY>
+  <!ATTLIST info
+      name CDATA #IMPLIED
+      type CDATA #IMPLIED
+      num-of-items CDATA #REQUIRED
+      oks-format CDATA #FIXED "data"
+      oks-version CDATA #REQUIRED
+      created-by CDATA #IMPLIED
+      created-on CDATA #IMPLIED
+      creation-time CDATA #IMPLIED
+      last-modified-by CDATA #IMPLIED
+      last-modified-on CDATA #IMPLIED
+      last-modification-time CDATA #IMPLIED
+  >
+  <!ELEMENT include (file)*>
+  <!ELEMENT file EMPTY>
+  <!ATTLIST file
+      path CDATA #REQUIRED
+  >
+  <!ELEMENT comments (comment)*>
+  <!ELEMENT comment EMPTY>
+  <!ATTLIST comment
+      creation-time CDATA #REQUIRED
+      created-by CDATA #REQUIRED
+      created-on CDATA #REQUIRED
+      author CDATA #REQUIRED
+      text CDATA #REQUIRED
+  >
+  <!ELEMENT obj (attr | rel)*>
+  <!ATTLIST obj
+      class CDATA #REQUIRED
+      id CDATA #REQUIRED
+  >
+  <!ELEMENT attr (data)*>
+  <!ATTLIST attr
+      name CDATA #REQUIRED
+      type (bool|s8|u8|s16|u16|s32|u32|s64|u64|float|double|date|time|string|uid|enum|class|-) "-"
+      val CDATA ""
+  >
+  <!ELEMENT data EMPTY>
+  <!ATTLIST data
+      val CDATA #REQUIRED
+  >
+  <!ELEMENT rel (ref)*>
+  <!ATTLIST rel
+      name CDATA #REQUIRED
+      class CDATA ""
+      id CDATA ""
+  >
+  <!ELEMENT ref EMPTY>
+  <!ATTLIST ref
+      class CDATA #REQUIRED
+      id CDATA #REQUIRED
+  >
+]>
+
+<oks-data>
+
+<info name="" type="" num-of-items="12" oks-format="data" oks-version="862f2957270" created-by="gjc" created-on="thinkpad" creation-time="20230317T145112" last-modified-by="gjc" last-modified-on="thinkpad" last-modification-time="20230329T155741"/>
+
+<include>
+ <file path="schema/dunedaqdal/dunedaq.schema.xml"/>
+ <file path="schema/listrev/listrev.schema.xml"/>
+</include>
+
+<comments>
+ <comment creation-time="20230317T150829" created-by="gjc" created-on="thinkpad" author="gjc" text="first edit"/>
+ <comment creation-time="20230317T161224" created-by="gjc" created-on="thinkpad" author="gjc" text="2"/>
+ <comment creation-time="20230317T165401" created-by="gjc" created-on="thinkpad" author="gjc" text="3"/>
+ <comment creation-time="20230317T170140" created-by="gjc" created-on="thinkpad" author="gjc" text="5"/>
+ <comment creation-time="20230317T170247" created-by="gjc" created-on="thinkpad" author="gjc" text="6"/>
+ <comment creation-time="20230320T112621" created-by="gjc" created-on="thinkpad" author="gjc" text="x"/>
+ <comment creation-time="20230320T122840" created-by="gjc" created-on="thinkpad" author="gjc" text="xx"/>
+ <comment creation-time="20230320T161710" created-by="gjc" created-on="thinkpad" author="gjc" text="app environment"/>
+ <comment creation-time="20230323T110118" created-by="gjc" created-on="thinkpad" author="gjc" text="more ints"/>
+ <comment creation-time="20230327T124609" created-by="gjc" created-on="thinkpad" author="gjc" text="more ints"/>
+ <comment creation-time="20230327T141145" created-by="gjc" created-on="thinkpad" author="gjc" text="rename app"/>
+ <comment creation-time="20230327T152847" created-by="gjc" created-on="thinkpad" author="gjc" text="a"/>
+ <comment creation-time="20230329T153911" created-by="gjc" created-on="thinkpad" author="gjc" text="Change queues to network connections"/>
+ <comment creation-time="20230329T155741" created-by="gjc" created-on="thinkpad" author="gjc" text="rename apps"/>
+</comments>
+
+
+<obj class="DaqModule" id="lr">
+ <attr name="plugin" type="string" val="ListReverser"/>
+ <rel name="inputs">
+  <ref class="NetworkConnection" id="to_reverse"/>
+ </rel>
+ <rel name="outputs">
+  <ref class="Queue" id="revQ"/>
+ </rel>
+</obj>
+
+<obj class="DaqModule" id="lrv">
+ <attr name="plugin" type="string" val="ReversedListValidator"/>
+ <rel name="inputs">
+  <ref class="NetworkConnection" id="original"/>
+  <ref class="Queue" id="revQ"/>
+ </rel>
+</obj>
+
+<obj class="ListrevApplication" id="listrev-app-g-1-localhost">
+ <attr name="host" type="string" val="localhost"/>
+ <attr name="apps" type="string">
+  <data val="s"/>
+ </attr>
+ <rel name="ApplicationEnvironment">
+  <ref class="VariableSet" id="appEnvironment"/>
+ </rel>
+ <rel name="modules">
+  <ref class="RandomListGeneratorModule" id="rdlg"/>
+ </rel>
+</obj>
+
+<obj class="ListrevApplication" id="listrev-app-rev">
+ <attr name="host" type="string" val="localhost"/>
+ <attr name="apps" type="string">
+  <data val="s"/>
+ </attr>
+ <rel name="ApplicationEnvironment">
+  <ref class="VariableSet" id="appEnvironment"/>
+ </rel>
+ <rel name="modules">
+  <ref class="DaqModule" id="lr"/>
+ </rel>
+</obj>
+
+<obj class="ListrevApplication" id="listrev-app-rv-localhost">
+ <attr name="host" type="string" val="localhost"/>
+ <attr name="apps" type="string">
+  <data val="s"/>
+ </attr>
+ <rel name="ApplicationEnvironment">
+  <ref class="VariableSet" id="appEnvironment"/>
+ </rel>
+ <rel name="modules">
+  <ref class="DaqModule" id="lrv"/>
+  <ref class="DaqModule" id="lr"/>
+ </rel>
+</obj>
+
+<obj class="NetworkConnection" id="original">
+ <attr name="data_type" type="string" val="IntList"/>
+ <attr name="connection_type" type="enum" val="kSendRecv"/>
+ <attr name="uri" type="string" val="tcp://localhost:12346"/>
+</obj>
+
+<obj class="NetworkConnection" id="reversed">
+ <attr name="data_type" type="string" val="IntList"/>
+ <attr name="connection_type" type="enum" val="kSendRecv"/>
+ <attr name="uri" type="string" val="tcp://localhost:12348"/>
+</obj>
+
+<obj class="NetworkConnection" id="to_reverse">
+ <attr name="data_type" type="string" val="IntList"/>
+ <attr name="connection_type" type="enum" val="kSendRecv"/>
+ <attr name="uri" type="string" val="tcp://localhost:12347"/>
+</obj>
+
+<obj class="Queue" id="origQ">
+ <attr name="data_type" type="string" val="IntList"/>
+ <attr name="capacity" type="u32" val="10"/>
+ <attr name="queue_type" type="enum" val="kFollySPSCQueue"/>
+</obj>
+
+<obj class="Queue" id="revQ">
+ <attr name="data_type" type="string" val="IntList"/>
+ <attr name="capacity" type="u32" val="10"/>
+ <attr name="queue_type" type="enum" val="kFollySPSCQueue"/>
+</obj>
+
+<obj class="Queue" id="to_revQ">
+ <attr name="data_type" type="string" val="IntList"/>
+ <attr name="capacity" type="u32" val="10"/>
+ <attr name="queue_type" type="enum" val="kFollySPSCQueue"/>
+</obj>
+
+<obj class="RandomListGeneratorModule" id="rdlg">
+ <attr name="plugin" type="string" val="RandomDataListGenerator"/>
+ <attr name="ints_per_list" type="u32" val="16"/>
+ <attr name="wait_ms" type="u32" val="100"/>
+ <rel name="outputs">
+  <ref class="NetworkConnection" id="original"/>
+  <ref class="NetworkConnection" id="to_reverse"/>
+ </rel>
+</obj>
+
+</oks-data>

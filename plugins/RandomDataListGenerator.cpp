@@ -77,17 +77,10 @@ RandomDataListGenerator::init(const dunedaq::dal::DaqModule* conf)
     throw OksCastFailed(ERS_HERE, get_name(), "dunedaq::dal::RandomListGeneratorModule");
   }
   for (const auto output: m_conf->get_outputs()) {
-    auto queue = output->cast<dunedaq::dal::Queue>();
-    if (queue) {
-      try {
-        outputQueues_.emplace_back(get_iom_sender<IntList>(
-                                     iomanager::ConnectionId{queue->UID(),"IntList"}));
-      } catch (const ers::Issue& excpt) {
-        throw InvalidQueueFatalError(ERS_HERE, get_name(), queue->UID(), excpt);
-      }
-    }
-    else {
-      // throw (  not a queue!!!
+    try {
+      outputQueues_.emplace_back(get_iom_sender<IntList>(output->UID()));//                                     iomanager::ConnectionId{queue->UID(),"IntList"}));
+    } catch (const ers::Issue& excpt) {
+      throw InvalidQueueFatalError(ERS_HERE, get_name(), output->UID(), excpt);
     }
   }
   TLOG_DEBUG(TLVL_ENTER_EXIT_METHODS) << get_name() << ": Exiting init() method";

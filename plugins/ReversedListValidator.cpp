@@ -69,8 +69,7 @@ ReversedListValidator::init(const dunedaq::dal::DaqModule* conf) {
   m_conf = conf;
 
   for (auto input : conf->get_inputs()) {
-    auto queue = input->cast<dunedaq::dal::Queue>();
-    std::string name(queue->UID());
+    std::string name(input->UID());
     if (name.find("rev") != std::string::npos) {
       try {
         reversedDataQueue_ = get_iom_receiver<IntList>(name);

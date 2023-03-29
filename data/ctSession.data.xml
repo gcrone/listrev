@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="ASCII"?>
+
+<!-- oks-data version 2.2 -->
+
+
+<!DOCTYPE oks-data [
+  <!ELEMENT oks-data (info, (include)?, (comments)?, (obj)+)>
+  <!ELEMENT info EMPTY>
+  <!ATTLIST info
+      name CDATA #IMPLIED
+      type CDATA #IMPLIED
+      num-of-items CDATA #REQUIRED
+      oks-format CDATA #FIXED "data"
+      oks-version CDATA #REQUIRED
+      created-by CDATA #IMPLIED
+      created-on CDATA #IMPLIED
+      creation-time CDATA #IMPLIED
+      last-modified-by CDATA #IMPLIED
+      last-modified-on CDATA #IMPLIED
+      last-modification-time CDATA #IMPLIED
+  >
+  <!ELEMENT include (file)*>
+  <!ELEMENT file EMPTY>
+  <!ATTLIST file
+      path CDATA #REQUIRED
+  >
+  <!ELEMENT comments (comment)*>
+  <!ELEMENT comment EMPTY>
+  <!ATTLIST comment
+      creation-time CDATA #REQUIRED
+      created-by CDATA #REQUIRED
+      created-on CDATA #REQUIRED
+      author CDATA #REQUIRED
+      text CDATA #REQUIRED
+  >
+  <!ELEMENT obj (attr | rel)*>
+  <!ATTLIST obj
+      class CDATA #REQUIRED
+      id CDATA #REQUIRED
+  >
+  <!ELEMENT attr (data)*>
+  <!ATTLIST attr
+      name CDATA #REQUIRED
+      type (bool|s8|u8|s16|u16|s32|u32|s64|u64|float|double|date|time|string|uid|enum|class|-) "-"
+      val CDATA ""
+  >
+  <!ELEMENT data EMPTY>
+  <!ATTLIST data
+      val CDATA #REQUIRED
+  >
+  <!ELEMENT rel (ref)*>
+  <!ATTLIST rel
+      name CDATA #REQUIRED
+      class CDATA ""
+      id CDATA ""
+  >
+  <!ELEMENT ref EMPTY>
+  <!ATTLIST ref
+      class CDATA #REQUIRED
+      id CDATA #REQUIRED
+  >
+]>
+
+<oks-data>
+
+<info name="" type="" num-of-items="15" oks-format="data" oks-version="862f2957270" created-by="gjc" created-on="thinkpad" creation-time="20230320T153246" last-modified-by="gjc" last-modified-on="thinkpad" last-modification-time="20230329T160356"/>
+
+<include>
+ <file path="schema/dunedaqdal/dunedaq.schema.xml"/>
+ <file path="schema/listrev/listrev.schema.xml"/>
+ <file path="data/commtest.data.xml"/>
+</include>
+
+<comments>
+ <comment creation-time="20230320T153410" created-by="gjc" created-on="thinkpad" author="Unknown" text="New session file"/>
+ <comment creation-time="20230320T154707" created-by="gjc" created-on="thinkpad" author="gjc" text="Add ERS variables"/>
+ <comment creation-time="20230320T155345" created-by="gjc" created-on="thinkpad" author="gjc" text="Create listrev sesson"/>
+ <comment creation-time="20230320T161710" created-by="gjc" created-on="thinkpad" author="gjc" text="app environment"/>
+ <comment creation-time="20230321T092204" created-by="gjc" created-on="thinkpad" author="gjc" text="more environment"/>
+ <comment creation-time="20230327T141145" created-by="gjc" created-on="thinkpad" author="gjc" text="rename app"/>
+ <comment creation-time="20230327T143823" created-by="gjc" created-on="thinkpad" author="gjc" text="rename session"/>
+ <comment creation-time="20230327T143945" created-by="gjc" created-on="thinkpad" author="gjc" text="again"/>
+ <comment creation-time="20230329T153911" created-by="gjc" created-on="thinkpad" author="gjc" text="Change queues to network connections"/>
+ <comment creation-time="20230329T160356" created-by="gjc" created-on="thinkpad" author="gjc" text="rename session"/>
+</comments>
+
+
+<obj class="Session" id="commtest-session">
+ <attr name="Description" type="string" val="DAQ Session containig listrev example application"/>
+ <attr name="use_connectivity_server" type="bool" val="1"/>
+ <attr name="connectivity_service_interval_ms" type="u32" val="2000"/>
+ <rel name="applications">
+  <ref class="ListrevApplication" id="listrev-app-g-1-localhost"/>
+  <ref class="ListrevApplication" id="listrev-app-rv-localhost"/>
+ </rel>
+ <rel name="ProcessEnvironment">
+  <ref class="VariableSet" id="ersVariables"/>
+ </rel>
+</obj>
+
+<obj class="Variable" id="cetPath">
+ <attr name="Name" type="string" val="CET_PLUGIN_PATH"/>
+ <attr name="Value" type="string" val="${CET_PLUGIN_PATH}"/>
+</obj>
+
+<obj class="Variable" id="detchannelmaps">
+ <attr name="Name" type="string" val="DETCHANNELMAPS_SHARE"/>
+ <attr name="Value" type="string" val="${DETCHANNELMAPS_SHARE}"/>
+</obj>
+
+<obj class="Variable" id="ersDebuglevel">
+ <attr name="Description" type="string" val="ERS Debug level, -ve number allowed, &gt;=0 allows messages with that level or higher to be shown"/>
+ <attr name="Name" type="string" val="DUNEDAQ_ERS_DEBUG_LEVEL"/>
+ <attr name="Value" type="string" val="-1"/>
+</obj>
+
+<obj class="Variable" id="ersError">
+ <attr name="Description" type="string" val="ERS stream configuration for error level issues"/>
+ <attr name="Name" type="string" val="DUNEDAQ_ERS_ERROR"/>
+ <attr name="Value" type="string" val="erstrace,throttle,lstdout"/>
+</obj>
+
+<obj class="Variable" id="ersFatal">
+ <attr name="Description" type="string" val="ERS stream configuration for fatal level issues"/>
+ <attr name="Name" type="string" val="DUNEDAQ_ERS_FATAL"/>
+ <attr name="Value" type="string" val="erstrace,lstdout"/>
+</obj>
+
+<obj class="Variable" id="ersInfo">
+ <attr name="Description" type="string" val="ERS stream configuration for info level issues"/>
+ <attr name="Name" type="string" val="DUNEDAQ_ERS_INFO"/>
+ <attr name="Value" type="string" val="erstrace,throttle,lstdout"/>
+</obj>
+
+<obj class="Variable" id="ersVerbosity">
+ <attr name="Description" type="string" val="Verbosity level of ERS messages"/>
+ <attr name="Name" type="string" val="DUNEDAQ_ERS_VERBOSITY_LEVEL"/>
+ <attr name="Value" type="string" val="1"/>
+</obj>
+
+<obj class="Variable" id="ersWarning">
+ <attr name="Description" type="string" val="ERS stream configuration for warning level issues"/>
+ <attr name="Name" type="string" val="DUNEDAQ_ERS_WARNING"/>
+ <attr name="Value" type="string" val="erstrace,throttle,lstdout"/>
+</obj>
+
+<obj class="Variable" id="ldlibrarypath">
+ <attr name="Name" type="string" val="LD_LIBRARY_PATH"/>
+ <attr name="Value" type="string" val="${LD_LIBRARY_PATH}"/>
+</obj>
+
+<obj class="Variable" id="path">
+ <attr name="Name" type="string" val="PATH"/>
+ <attr name="Value" type="string" val="${PATH}"/>
+</obj>
+
+<obj class="Variable" id="sharepath">
+ <attr name="Name" type="string" val="DUNEDAQ_SHARE_PATH"/>
+ <attr name="Value" type="string" val="${DUNEDAQ_SHARE_PATH}"/>
+</obj>
+
+<obj class="Variable" id="timingshare">
+ <attr name="Name" type="string" val="TIMING_SHARE"/>
+ <attr name="Value" type="string" val="${TIMING_SHARE}"/>
+</obj>
+
+<obj class="VariableSet" id="appEnvironment">
+ <attr name="Description" type="string" val="Environment variables for daq applications"/>
+ <rel name="Contains">
+  <ref class="Variable" id="cetPath"/>
+  <ref class="Variable" id="detchannelmaps"/>
+  <ref class="Variable" id="ldlibrarypath"/>
+  <ref class="Variable" id="path"/>
+  <ref class="Variable" id="sharepath"/>
+  <ref class="Variable" id="timingshare"/>
+ </rel>
+</obj>
+
+<obj class="VariableSet" id="ersVariables">
+ <attr name="Description" type="string" val="ERS related environment variables"/>
+ <rel name="Contains">
+  <ref class="Variable" id="ersDebuglevel"/>
+  <ref class="Variable" id="ersError"/>
+  <ref class="Variable" id="ersFatal"/>
+  <ref class="Variable" id="ersInfo"/>
+  <ref class="Variable" id="ersVerbosity"/>
+  <ref class="Variable" id="ersWarning"/>
+ </rel>
+</obj>
+
+</oks-data>

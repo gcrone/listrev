@@ -66,16 +66,24 @@ ListReverser::init(const dunedaq::dal::DaqModule* conf) {
   m_conf = conf;
   try {
     auto inputs = m_conf->get_inputs();
-    auto queue = inputs[0]->cast<dunedaq::dal::Queue>();
-    inputQueue_ = get_iom_receiver<IntList>(queue->UID());
+    if (inputs.size() == 1) {
+      inputQueue_ = get_iom_receiver<IntList>(inputs[0]->UID());
+    }
+    else {
+      throw InvalidQueueFatalError(ERS_HERE, get_name(), "input");
+    }
   } catch (const ers::Issue& excpt) {
     throw InvalidQueueFatalError(ERS_HERE, get_name(), "input", excpt);
   }
 
   try {
     auto outputs = m_conf->get_outputs();
-    auto queue = outputs[0]->cast<dunedaq::dal::Queue>();
-    outputQueue_ = get_iom_sender<IntList>(queue->UID());
+    if (outputs.size() == 1) {
+      outputQueue_ = get_iom_sender<IntList>(outputs[0]->UID());
+    }
+    else {
+      throw InvalidQueueFatalError(ERS_HERE, get_name(), "input");
+    }
   } catch (const ers::Issue& excpt) {
     throw InvalidQueueFatalError(ERS_HERE, get_name(), "input", excpt);
   }
