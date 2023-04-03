@@ -62,7 +62,7 @@ private:
   void do_work(std::atomic<bool>&);
 
   // Configuration
-  Configuration* m_confdb;
+  oksdbinterfaces::Configuration* m_confdb;
   const dunedaq::dal::DaqModule* m_conf;
   using source_t = dunedaq::iomanager::ReceiverConcept<IntList>;
   std::shared_ptr<source_t> inputQueue_;
