@@ -63,7 +63,7 @@
 
 <oks-data>
 
-<info name="" type="" num-of-items="12" oks-format="data" oks-version="862f2957270" created-by="gjc" created-on="thinkpad" creation-time="20230317T145112" last-modified-by="gjc" last-modified-on="thinkpad" last-modification-time="20230329T155741"/>
+<info name="" type="" num-of-items="12" oks-format="data" oks-version="862f2957270" created-by="gjc" created-on="thinkpad" creation-time="20230317T145112" last-modified-by="gjc" last-modified-on="thinkpad" last-modification-time="20230419T111309"/>
 
 <include>
  <file path="schema/dunedaqdal/dunedaq.schema.xml"/>
@@ -85,6 +85,7 @@
  <comment creation-time="20230327T152847" created-by="gjc" created-on="thinkpad" author="gjc" text="a"/>
  <comment creation-time="20230329T153911" created-by="gjc" created-on="thinkpad" author="gjc" text="Change queues to network connections"/>
  <comment creation-time="20230329T155741" created-by="gjc" created-on="thinkpad" author="gjc" text="rename apps"/>
+ <comment creation-time="20230419T111309" created-by="gjc" created-on="thinkpad" author="gjc" text="new schema"/>
 </comments>
 
 
@@ -107,39 +108,39 @@
 </obj>
 
 <obj class="ListrevApplication" id="listrev-app-g-1-localhost">
- <attr name="host" type="string" val="localhost"/>
  <attr name="apps" type="string">
   <data val="s"/>
  </attr>
  <rel name="ApplicationEnvironment">
   <ref class="VariableSet" id="appEnvironment"/>
  </rel>
+ <rel name="host" class="Host" id="localhost"/>
  <rel name="modules">
   <ref class="RandomListGeneratorModule" id="rdlg"/>
  </rel>
 </obj>
 
 <obj class="ListrevApplication" id="listrev-app-rev">
- <attr name="host" type="string" val="localhost"/>
  <attr name="apps" type="string">
   <data val="s"/>
  </attr>
  <rel name="ApplicationEnvironment">
   <ref class="VariableSet" id="appEnvironment"/>
  </rel>
+ <rel name="host" class="Host" id="localhost"/>
  <rel name="modules">
   <ref class="DaqModule" id="lr"/>
  </rel>
 </obj>
 
 <obj class="ListrevApplication" id="listrev-app-rv-localhost">
- <attr name="host" type="string" val="localhost"/>
  <attr name="apps" type="string">
   <data val="s"/>
  </attr>
  <rel name="ApplicationEnvironment">
   <ref class="VariableSet" id="appEnvironment"/>
  </rel>
+ <rel name="host" class="Host" id="localhost"/>
  <rel name="modules">
   <ref class="DaqModule" id="lrv"/>
   <ref class="DaqModule" id="lr"/>
@@ -149,18 +150,21 @@
 <obj class="NetworkConnection" id="original">
  <attr name="data_type" type="string" val="IntList"/>
  <attr name="connection_type" type="enum" val="kSendRecv"/>
+ <attr name="protocol" type="enum" val="tcp"/>
  <attr name="uri" type="string" val="tcp://localhost:12346"/>
 </obj>
 
 <obj class="NetworkConnection" id="reversed">
  <attr name="data_type" type="string" val="IntList"/>
  <attr name="connection_type" type="enum" val="kSendRecv"/>
+ <attr name="protocol" type="enum" val="tcp"/>
  <attr name="uri" type="string" val="tcp://localhost:12348"/>
 </obj>
 
 <obj class="NetworkConnection" id="to_reverse">
  <attr name="data_type" type="string" val="IntList"/>
  <attr name="connection_type" type="enum" val="kSendRecv"/>
+ <attr name="protocol" type="enum" val="tcp"/>
  <attr name="uri" type="string" val="tcp://localhost:12347"/>
 </obj>
 

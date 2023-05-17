@@ -63,7 +63,7 @@
 
 <oks-data>
 
-<info name="" type="" num-of-items="15" oks-format="data" oks-version="862f2957270" created-by="gjc" created-on="thinkpad" creation-time="20230320T153246" last-modified-by="gjc" last-modified-on="thinkpad" last-modification-time="20230329T160356"/>
+<info name="" type="" num-of-items="18" oks-format="data" oks-version="862f2957270" created-by="gjc" created-on="thinkpad" creation-time="20230320T153246" last-modified-by="gjc" last-modified-on="thinkpad" last-modification-time="20230419T112003"/>
 
 <include>
  <file path="schema/dunedaqdal/dunedaq.schema.xml"/>
@@ -82,12 +82,32 @@
  <comment creation-time="20230327T143945" created-by="gjc" created-on="thinkpad" author="gjc" text="again"/>
  <comment creation-time="20230329T153911" created-by="gjc" created-on="thinkpad" author="gjc" text="Change queues to network connections"/>
  <comment creation-time="20230329T160356" created-by="gjc" created-on="thinkpad" author="gjc" text="rename session"/>
+ <comment creation-time="20230419T111309" created-by="gjc" created-on="thinkpad" author="gjc" text="new schema"/>
+ <comment creation-time="20230419T112003" created-by="gjc" created-on="thinkpad" author="gjc" text="x"/>
 </comments>
 
 
+<obj class="Host" id="localhost">
+ <rel name="network">
+  <ref class="NetworkInterface" id="ln0"/>
+ </rel>
+ <rel name="numa_nodes">
+  <ref class="NumaNode" id="numa-0"/>
+ </rel>
+</obj>
+
+<obj class="NetworkInterface" id="ln0">
+ <attr name="speed" type="u16" val="1"/>
+ <attr name="name" type="enum" val="Control"/>
+</obj>
+
+<obj class="NumaNode" id="numa-0">
+ <attr name="cpu_cores" type="string" val="0-3"/>
+</obj>
+
 <obj class="Session" id="commtest-session">
  <attr name="Description" type="string" val="DAQ Session containig listrev example application"/>
- <attr name="use_connectivity_server" type="bool" val="1"/>
+ <attr name="use_connectivity_server" type="bool" val="0"/>
  <attr name="connectivity_service_interval_ms" type="u32" val="2000"/>
  <rel name="applications">
   <ref class="ListrevApplication" id="listrev-app-g-1-localhost"/>

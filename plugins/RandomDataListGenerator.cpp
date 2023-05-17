@@ -21,7 +21,7 @@
 
 #include "oksdbinterfaces/Configuration.hpp"
 #include "dunedaqdal/DaqModule.hpp"
-#include "dunedaqdal/Queue.hpp"
+#include "dunedaqdal/Connection.hpp"
 
 #include <chrono>
 #include <cstdlib>
@@ -78,7 +78,7 @@ RandomDataListGenerator::init(const dunedaq::dal::DaqModule* conf)
   }
   for (const auto output: m_conf->get_outputs()) {
     try {
-      outputQueues_.emplace_back(get_iom_sender<IntList>(output->UID()));//                                     iomanager::ConnectionId{queue->UID(),"IntList"}));
+      outputQueues_.emplace_back(get_iom_sender<IntList>(output->UID()));
     } catch (const ers::Issue& excpt) {
       throw InvalidQueueFatalError(ERS_HERE, get_name(), output->UID(), excpt);
     }
