@@ -21,7 +21,7 @@
 #include "iomanager/Sender.hpp"
 #include "utilities/WorkerThread.hpp"
 
-#include "dunedaqdal/DaqModule.hpp"
+#include "coredal/DaqModule.hpp"
 
 #include <ers/Issue.hpp>
 
@@ -54,7 +54,7 @@ public:
     delete; ///< RandomDataListGenerator is not move-assignable
 
   void init(const nlohmann::json& obj) override;
-  void init(const dunedaq::dal::DaqModule*) override;
+  void init(const dunedaq::coredal::DaqModule*) override;
 
   void get_info(opmonlib::InfoCollector& ci, int level) override;
 
@@ -75,7 +75,7 @@ private:
   std::vector<std::shared_ptr<sink_t>> outputQueues_;
   std::chrono::milliseconds queueTimeout_;
   randomdatalistgenerator::ConfParams cfg_;
-  const dunedaq::dal::RandomListGeneratorModule* m_conf;
+  const dunedaq::coredal::RandomListGeneratorModule* m_conf;
 
   // Statistic counters
   std::atomic<uint64_t> m_generated{ 0 };     // NOLINT(build/unsigned)

@@ -66,7 +66,7 @@
 <info name="" type="" num-of-items="18" oks-format="data" oks-version="862f2957270" created-by="gjc" created-on="thinkpad" creation-time="20230320T153246" last-modified-by="gjc" last-modified-on="thinkpad" last-modification-time="20230419T112003"/>
 
 <include>
- <file path="schema/dunedaqdal/dunedaq.schema.xml"/>
+ <file path="schema/coredal/dunedaq.schema.xml"/>
  <file path="schema/listrev/listrev.schema.xml"/>
  <file path="data/commtest.data.xml"/>
 </include>

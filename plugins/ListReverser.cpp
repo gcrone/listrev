@@ -14,7 +14,7 @@
 #include "iomanager/IOManager.hpp"
 #include "logging/Logging.hpp"
 
-#include "dunedaqdal/Queue.hpp"
+#include "coredal/Queue.hpp"
 
 #include <chrono>
 #include <string>
@@ -61,7 +61,7 @@ ListReverser::init(const nlohmann::json& iniobj)
 }
 
 void
-ListReverser::init(const dunedaq::dal::DaqModule* conf) {
+ListReverser::init(const dunedaq::coredal::DaqModule* conf) {
   TLOG_DEBUG(TLVL_ENTER_EXIT_METHODS) << get_name() << ": Entering init() method";
   m_conf = conf;
   try {

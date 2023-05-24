@@ -14,7 +14,7 @@
 #include "iomanager/IOManager.hpp"
 #include "logging/Logging.hpp"
 
-#include "dunedaqdal/Queue.hpp"
+#include "coredal/Queue.hpp"
 
 #include <chrono>
 #include <functional>
@@ -64,7 +64,7 @@ ReversedListValidator::init(const nlohmann::json& obj)
 }
 
 void
-ReversedListValidator::init(const dunedaq::dal::DaqModule* conf) {
+ReversedListValidator::init(const dunedaq::coredal::DaqModule* conf) {
   TLOG_DEBUG(TLVL_ENTER_EXIT_METHODS) << get_name() << ": Entering init() method";
   m_conf = conf;
 

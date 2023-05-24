@@ -20,8 +20,8 @@
 #include "logging/Logging.hpp"
 
 #include "oksdbinterfaces/Configuration.hpp"
-#include "dunedaqdal/DaqModule.hpp"
-#include "dunedaqdal/Connection.hpp"
+#include "coredal/DaqModule.hpp"
+#include "coredal/Connection.hpp"
 
 #include <chrono>
 #include <cstdlib>
@@ -69,12 +69,12 @@ RandomDataListGenerator::init(const nlohmann::json& init_data)
   TLOG_DEBUG(TLVL_ENTER_EXIT_METHODS) << get_name() << ": Exiting init() method";
 }
 void
-RandomDataListGenerator::init(const dunedaq::dal::DaqModule* conf)
+RandomDataListGenerator::init(const dunedaq::coredal::DaqModule* conf)
 {
   TLOG_DEBUG(TLVL_ENTER_EXIT_METHODS) << get_name() << ": Entering init() method";
-  m_conf = conf->cast<dunedaq::dal::RandomListGeneratorModule>();
+  m_conf = conf->cast<dunedaq::coredal::RandomListGeneratorModule>();
   if (m_conf == nullptr) {
-    throw OksCastFailed(ERS_HERE, get_name(), "dunedaq::dal::RandomListGeneratorModule");
+    throw OksCastFailed(ERS_HERE, get_name(), "dunedaq::coredal::RandomListGeneratorModule");
   }
   for (const auto output: m_conf->get_outputs()) {
     try {

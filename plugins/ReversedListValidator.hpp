@@ -20,7 +20,7 @@
 #include "iomanager/Receiver.hpp"
 #include "utilities/WorkerThread.hpp"
 
-#include "dunedaqdal/DaqModule.hpp"
+#include "coredal/DaqModule.hpp"
 
 #include <ers/Issue.hpp>
 
@@ -51,7 +51,7 @@ public:
   ReversedListValidator& operator=(ReversedListValidator&&) = delete; ///< ReversedListValidator is not move-assignable
 
   void init(const nlohmann::json& obj) override;
-  void init(const dunedaq::dal::DaqModule*) override;
+  void init(const dunedaq::coredal::DaqModule*) override;
 
 private:
   // Commands
@@ -63,7 +63,7 @@ private:
   void do_work(std::atomic<bool>&);
 
   // Configuration
-  const dunedaq::dal::DaqModule* m_conf;
+  const dunedaq::coredal::DaqModule* m_conf;
   using source_t = dunedaq::iomanager::ReceiverConcept<IntList>;
   std::shared_ptr<source_t> reversedDataQueue_;
   std::shared_ptr<source_t> originalDataQueue_;
