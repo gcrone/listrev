@@ -72,9 +72,9 @@ void
 RandomDataListGenerator::init(const dunedaq::coredal::DaqModule* conf)
 {
   TLOG_DEBUG(TLVL_ENTER_EXIT_METHODS) << get_name() << ": Entering init() method";
-  m_conf = conf->cast<dunedaq::coredal::RandomListGeneratorModule>();
+  m_conf = conf->cast<dal::RandomListGeneratorModule>();
   if (m_conf == nullptr) {
-    throw OksCastFailed(ERS_HERE, get_name(), "dunedaq::coredal::RandomListGeneratorModule");
+    throw OksCastFailed(ERS_HERE, get_name(), "dal::RandomListGeneratorModule");
   }
   for (const auto output: m_conf->get_outputs()) {
     try {
